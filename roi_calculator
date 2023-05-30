@@ -1,0 +1,74 @@
+class Income:
+    def __init__(self):
+        self.income = 0
+    
+    def get_income(self):
+        self.income = float(input("Enter the rent income for the property: "))
+
+
+class Expenses:
+    def __init__(self):
+        self.yearly_tax = 0
+        self.utilities = 0
+        self.hoa = 0
+        self.repairs = 0
+        self.property_mgmt_fee = 0
+        self.mortgage_rate = 0
+
+    def get_expenses(self):
+        self.yearly_tax = float(input("Enter yearly applicable tax: "))
+        self.utilities = float(input("Enter utilities expense: "))
+        self.hoa = float(input("Enter HOA fee: "))
+        self.repairs = float(input("Enter repairs expense: "))
+        self.property_mgmt_fee = float(input("Enter property management fee percentage: "))
+        self.mortgage_rate = float(input("Enter monthly mortgage rate: "))
+
+
+class CashFlow:
+    def __init__(self, income, expenses):
+        self.income = income
+        self.expenses = expenses
+        self.cash_flow = 0
+
+    def calculate_cash_flow(self):
+        self.cash_flow = self.income - (self.expenses.utilities + 
+                                        self.expenses.hoa + 
+                                        self.expenses.repairs +
+                                        self.expenses.property_mgmt_fee / 100 * self.income +
+                                        self.expenses.mortgage_rate)
+
+
+class CashOnCashROI:
+    def __init__(self, cash_flow, total_investment):
+        self.cash_flow = cash_flow
+        self.total_investment = total_investment
+        self.roi = 0
+
+    def calculate_roi(self):
+        self.roi = (self.cash_flow * 12) / self.total_investment * 100
+
+
+def ROI():
+    income = Income()
+    income.get_income()
+
+    expenses = Expenses()
+    expenses.get_expenses()
+
+    cash_flow = CashFlow(income.income, expenses)
+    cash_flow.calculate_cash_flow()
+
+    down_payment = float(input("Enter the down payment: "))
+    closing_costs = float(input("Enter the closing costs: "))
+    repair_budget = (float(input("Enter the repair budget: ")))/120
+
+    total_investment = down_payment + closing_costs + repair_budget
+
+    coc_roi = CashOnCashROI(cash_flow.cash_flow, total_investment)
+    coc_roi.calculate_roi()
+
+    print("Cash Flow: $", cash_flow.cash_flow)
+    print("Cash on Cash ROI: ", coc_roi.roi, "%")
+
+
+ROI()
